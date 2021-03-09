@@ -35,7 +35,10 @@ namespace _2d.Engine.EntityHelpers
                 entity.Position.Y = entity.Texture.Height / 2;
         }
 
-        public void CheckEnemyPosition(Entity player, Entity enemy)
+        /// <summary>
+        /// Check enemy position for collision.
+        /// </summary>
+        public void DetectEnemyCollision(Entity player, Entity enemy)
         {
             var playerRec = new Rectangle((int)player.Position.X, 
                 (int)player.Position.Y, 
@@ -47,8 +50,9 @@ namespace _2d.Engine.EntityHelpers
                 enemy.Texture.Width,
                 enemy.Texture.Height);
 
+            // todo: bad code
             if (playerRec.Intersects(enemyRec))
-                Console.WriteLine("### intersecting ###");
+                player.Position.X = enemy.Position.X; 
         }
     }
 }

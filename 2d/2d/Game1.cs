@@ -48,22 +48,20 @@ namespace _2d
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            // _player.LoadContent();
-            // _enemy.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
             KeyboardState = Keyboard.GetState();
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
+                || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
             _player.Update(gameTime, KeyboardState);
             _enemy.Update(gameTime, KeyboardState);
 
-            _boundsHelper.CheckEnemyPosition(_player, _enemy);
+            _boundsHelper.DetectEnemyCollision(_player, _enemy);
 
             base.Update(gameTime);
         }
