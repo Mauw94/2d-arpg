@@ -31,7 +31,7 @@ namespace _2d.Engine.Entities
         /// </summary>
         public void Update(GameTime gameTime, KeyboardState keyboardState)
         {
-            KeyInput(keyboardState, gameTime, 1000f);
+            KeyInput(keyboardState, gameTime, 250f);
 
             // ApplyPhysics(gameTime);
         }
@@ -58,7 +58,7 @@ namespace _2d.Engine.Entities
         /// </summary>
         void LoadContent()
         {
-            Texture = Content.Load<Texture2D>("alien");
+            Texture = Content.Load<Texture2D>("player");
         }
 
         /// <summary>

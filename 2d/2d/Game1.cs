@@ -31,8 +31,8 @@ namespace _2d
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 1650;
-            _graphics.PreferredBackBufferHeight = 980;
+            _graphics.PreferredBackBufferWidth = 640;
+            _graphics.PreferredBackBufferHeight = 480;
             _graphics.ApplyChanges();
 
           

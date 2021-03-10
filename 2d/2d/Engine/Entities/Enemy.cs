@@ -54,7 +54,7 @@ namespace _2d.Engine.Entities
         /// </summary>
         void LoadContent()
         {
-            Texture = Content.Load<Texture2D>("ball");
+            Texture = Content.Load<Texture2D>("enemy1");
         }
     }
 }
