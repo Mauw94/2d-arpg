@@ -40,19 +40,20 @@ namespace _2d.Engine.EntityHelpers
         /// </summary>
         public void DetectEnemyCollision(Entity player, Entity enemy)
         {
-            var playerRec = new Rectangle((int)player.Position.X, 
-                (int)player.Position.Y, 
-                player.Texture.Width, 
-                player.Texture.Height);
-
-            var enemyRec = new Rectangle((int)enemy.Position.X,
+            var enemeyRec = new Rectangle(
+                (int)enemy.Position.X,
                 (int)enemy.Position.Y,
                 enemy.Texture.Width,
                 enemy.Texture.Height);
 
-            // todo: bad code
-            if (playerRec.Intersects(enemyRec))
-                player.Position.X = enemy.Position.X; 
+            var playerRec = new Rectangle(
+                (int)player.Position.X,
+                (int)player.Position.Y,
+                player.Texture.Width,
+                player.Texture.Height);
+
+            if (playerRec.Intersects(enemeyRec))
+                Console.WriteLine("COLLIDING");
         }
     }
 }
