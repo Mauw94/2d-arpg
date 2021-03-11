@@ -29,21 +29,30 @@ namespace _2d.Engine.Entities
         public float Movement;
 
         /// <summary>
+        /// Is dead.
+        /// </summary>
+        public bool IsDead;
+
+        /// <summary>
         /// Gets a rectangle which bounds this entity in world space.
         /// </summary>
         public Rectangle BoundingRectangle
         {
             get
             {
-                return new Rectangle(Texture.Bounds.Size.X, Texture.Bounds.Size.Y, Texture.Width, Texture.Height);
+                return new Rectangle(
+                    (int)Position.X, 
+                    (int)Position.Y, 
+                    Texture.Width, 
+                    Texture.Height);
             }
         }
 
-        public BoundsHelper BoundsHelper { get; }
+        public GameHelper BoundsHelper { get; }
 
         public ContentManager Content { get; }
 
-        public Entity(IServiceProvider service, BoundsHelper boundsHelper, GraphicsDeviceManager graphics)
+        public Entity(IServiceProvider service, GameHelper boundsHelper, GraphicsDeviceManager graphics)
         {
             Content = new ContentManager(service, "content");
             BoundsHelper = boundsHelper;

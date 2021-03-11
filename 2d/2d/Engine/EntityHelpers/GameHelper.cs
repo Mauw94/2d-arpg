@@ -1,28 +1,29 @@
 ﻿using _2d.Engine.Entities;
+using _2d.Engine.Utils;
 using Microsoft.Xna.Framework;
 using System;
 
 namespace _2d.Engine.EntityHelpers
 {
     /// <summary>
-    /// Check bounds for entities.
+    /// Game helper class.
     /// </summary>
-    public class BoundsHelper
+    public class GameHelper
     {
         public bool Overlap;
 
         private readonly GraphicsDeviceManager _graphics;
 
-        public BoundsHelper(GraphicsDeviceManager graphics)
+        public GameHelper(GraphicsDeviceManager graphics)
         {
             _graphics = graphics;
         }
         
         /// <summary>
-        /// Check bounds.
+        /// Check window bounds.
         /// </summary>
         /// <param name="entity">Entity to check for.</param>
-        public void CheckBounds(Entity entity)
+        public void CheckWindowBounds(Entity entity)
         {
             if (entity.Position.X > _graphics.PreferredBackBufferWidth - entity.Texture.Width / 2)
                 entity.Position.X = _graphics.PreferredBackBufferWidth - entity.Texture.Width / 2;
@@ -36,24 +37,26 @@ namespace _2d.Engine.EntityHelpers
         }
 
         /// <summary>
+        /// Make sure an entity doesn't spawn on top of another entity.
+        /// </summary>
+        public void CheckEnemyOverlapWhenSpawning()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Check enemy position for collision.
         /// </summary>
         public void DetectEnemyCollision(Entity player, Entity enemy)
         {
-            var enemeyRec = new Rectangle(
-                (int)enemy.Position.X,
-                (int)enemy.Position.Y,
-                enemy.Texture.Width,
-                enemy.Texture.Height);
+            if (enemy.BoundingRectangle.Intersects(player.BoundingRectangle))
+            {
+                enemy.Dispose();
+                enemy.IsDead = true;
+                Score.IncreaseScore();
+                EntityManager.Enemies.Remove((Enemy)enemy);
+            }
 
-            var playerRec = new Rectangle(
-                (int)player.Position.X,
-                (int)player.Position.Y,
-                player.Texture.Width,
-                player.Texture.Height);
-
-            if (playerRec.Intersects(enemeyRec))
-                Console.WriteLine("COLLIDING");
         }
     }
 }

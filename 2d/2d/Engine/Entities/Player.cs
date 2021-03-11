@@ -11,20 +11,17 @@ namespace _2d.Engine.Entities
     /// </summary>
     public class Player : Entity, IEntity
     {
-        private GraphicsDevice graphics;
-
-        public Player(IServiceProvider serviceProvider, BoundsHelper boundsHelper, GraphicsDeviceManager graphicsDevice) 
+        public Player(IServiceProvider serviceProvider, GameHelper boundsHelper, GraphicsDeviceManager graphicsDevice) 
             : base(serviceProvider, boundsHelper, graphicsDevice)
         {
             LoadContent();
-            graphics = graphicsDevice.GraphicsDevice;
         }
 
         /// <summary>
         /// Initialize entity.
         /// </summary>
         /// <param name="graphics">Graphics device.</param>
-        public void Initialize()
+        public void Initialize(Entity? entity)
         {
             Position = new Vector2(GraphicsDevice.PreferredBackBufferWidth / 2, GraphicsDevice.PreferredBackBufferHeight / 2);
         }
@@ -93,7 +90,7 @@ namespace _2d.Engine.Entities
             if (keyboardState.IsKeyDown(Keys.Right))
                 Position.X += Movement * elapsed;
 
-            BoundsHelper.CheckBounds(this);
+            BoundsHelper.CheckWindowBounds(this);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using _2d.Engine.Entities;
+﻿using System.Collections.Generic;
+using _2d.Engine.Entities;
 using _2d.Engine.EntityHelpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,14 +11,11 @@ namespace _2d
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
         private EntityManager _entityManager;
-        private BoundsHelper _boundsHelper;
-
+        private GameHelper _boundsHelper;
         private KeyboardState KeyboardState;
         private Player _player;
-        private Enemy _enemy;
-
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -25,8 +23,6 @@ namespace _2d
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            _boundsHelper = new BoundsHelper(_graphics);
-            _entityManager = new EntityManager(Services, _boundsHelper, _graphics);
         }
 
         protected override void Initialize()
@@ -35,12 +31,18 @@ namespace _2d
             _graphics.PreferredBackBufferHeight = 480;
             _graphics.ApplyChanges();
 
-          
-            _player = new Player(Services, _boundsHelper, _graphics);
-            _enemy = _entityManager.AddEnemyEntity();
+            _boundsHelper = new GameHelper(_graphics);
 
-            _player.Initialize();
-            _enemy.Initialize();
+            _entityManager = new EntityManager(Services, _boundsHelper, _graphics);
+            _player = _entityManager.CreatePlayer();
+            _entityManager.AddMultipleEnemies(5);
+
+            _player.Initialize(null);
+
+            foreach (var enemy in EntityManager.Enemies.ToArray())
+            {
+                enemy.Initialize(_player);
+            }
 
             base.Initialize();
         }
@@ -59,9 +61,11 @@ namespace _2d
                 Exit();
             
             _player.Update(gameTime, KeyboardState);
-            _enemy.Update(gameTime, KeyboardState);
 
-            _boundsHelper.DetectEnemyCollision(_player, _enemy);
+            foreach (var enemy in EntityManager.Enemies.ToArray())
+            {
+                enemy.Update(gameTime, KeyboardState);
+            }
 
             base.Update(gameTime);
         }
@@ -73,7 +77,11 @@ namespace _2d
             _spriteBatch.Begin();
 
             _player.Draw(_spriteBatch);
-            _enemy.Draw(_spriteBatch);
+
+            foreach (var enemy in EntityManager.Enemies.ToArray())
+            {
+                enemy.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

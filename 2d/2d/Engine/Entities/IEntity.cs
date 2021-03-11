@@ -12,7 +12,7 @@ namespace _2d.Engine.Entities
         /// <summary>
         /// Initialize entity.
         /// </summary>
-        void Initialize();
+        void Initialize(Entity? entity);
 
         /// <summary>
         /// Update entity.
