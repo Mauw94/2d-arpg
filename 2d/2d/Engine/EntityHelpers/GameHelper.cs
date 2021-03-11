@@ -45,9 +45,9 @@ namespace _2d.Engine.EntityHelpers
         }
 
         /// <summary>
-        /// Check enemy position for collision.
+        /// Check if entities collide.
         /// </summary>
-        public void DetectEnemyCollision(Entity player, Entity enemy)
+        public void CheckCollisions(Entity player, Entity enemy)
         {
             if (enemy.BoundingRectangle.Intersects(player.BoundingRectangle))
             {
@@ -55,6 +55,8 @@ namespace _2d.Engine.EntityHelpers
                 enemy.IsDead = true;
                 Score.IncreaseScore();
                 EntityManager.Enemies.Remove((Enemy)enemy);
+
+                player.Health--;
             }
 
         }

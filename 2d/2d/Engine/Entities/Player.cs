@@ -11,10 +11,14 @@ namespace _2d.Engine.Entities
     /// </summary>
     public class Player : Entity, IEntity
     {
-        public Player(IServiceProvider serviceProvider, GameHelper boundsHelper, GraphicsDeviceManager graphicsDevice) 
-            : base(serviceProvider, boundsHelper, graphicsDevice)
+        private SpriteFont font;
+
+        public Player(IServiceProvider serviceProvider, GameHelper gameHelper, GraphicsDeviceManager graphicsDevice) 
+            : base(serviceProvider, gameHelper, graphicsDevice)
         {
             LoadContent();
+
+            Health = 2;
         }
 
         /// <summary>
@@ -41,6 +45,8 @@ namespace _2d.Engine.Entities
         /// </summary>
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.DrawString(font, Health.ToString(), new Vector2(GraphicsDevice.PreferredBackBufferWidth / 2, 10), Color.Red);
+
             spriteBatch.Draw(
                 Texture,
                 Position,
@@ -56,9 +62,10 @@ namespace _2d.Engine.Entities
         /// <summary>
         /// Load content.
         /// </summary>
-        void LoadContent()
+        public void LoadContent()
         {
             Texture = Content.Load<Texture2D>("player");
+            font = Content.Load<SpriteFont>("Score");
         }
 
         /// <summary>
@@ -90,7 +97,7 @@ namespace _2d.Engine.Entities
             if (keyboardState.IsKeyDown(Keys.Right))
                 Position.X += Movement * elapsed;
 
-            BoundsHelper.CheckWindowBounds(this);
+            GameHelper.CheckWindowBounds(this);
         }
     }
 }

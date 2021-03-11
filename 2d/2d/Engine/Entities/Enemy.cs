@@ -13,10 +13,14 @@ namespace _2d.Engine.Entities
     {
         private readonly Player _player;
 
-        public Enemy(IServiceProvider serviceProvider, Player player, GameHelper boundsHelper, GraphicsDeviceManager graphicsDevice) 
-            : base(serviceProvider, boundsHelper, graphicsDevice)
+        public Enemy(IServiceProvider serviceProvider, Player player, GameHelper gameHelper, GraphicsDeviceManager graphicsDevice) 
+            : base(serviceProvider, gameHelper, graphicsDevice)
         {
             LoadContent();
+
+            Health = 1;
+            Movement = GetMovementSpeed();
+
             _player = player;
         }
 
@@ -25,9 +29,8 @@ namespace _2d.Engine.Entities
         /// </summary>
         public void Initialize(Entity? player)
         {
-            Random rnd = new Random();
-            var xPos = rnd.Next(1, GraphicsDevice.PreferredBackBufferWidth - Texture.Width);
-            var yPos = rnd.Next(1, GraphicsDevice.PreferredBackBufferHeight - Texture.Height);
+            var xPos = RngHelper.GetRandomNr(1, GraphicsDevice.PreferredBackBufferWidth - Texture.Width);
+            var yPos = RngHelper.GetRandomNr(1, GraphicsDevice.PreferredBackBufferHeight - Texture.Height);
 
             var playerRectangle = new Rectangle(
                 (int)player.Position.X, 
@@ -46,8 +49,17 @@ namespace _2d.Engine.Entities
         /// </summary>
         public void Update(GameTime gameTime, KeyboardState keyboardState)
         {
-            // TODO: random movement => check bounds
-            BoundsHelper.DetectEnemyCollision(_player, this);
+            GameHelper.CheckCollisions(_player, this);
+        }
+
+        /// <summary>
+        /// Have enemy move to a new location.
+        /// </summary>
+        public void AttackPlayer()
+        {
+            Vector2 direction = _player.Position - Position;
+            direction.Normalize();
+            Position += direction * Movement;
         }
 
         /// <summary>
@@ -64,6 +76,15 @@ namespace _2d.Engine.Entities
         void LoadContent()
         {
             Texture = Content.Load<Texture2D>("enemy1");
+        }
+
+        /// <summary>
+        /// Get a random movement speed.
+        /// </summary>
+        float GetMovementSpeed()
+        {
+            var speed = RngHelper.GetRandomNr(3, 12);
+            return speed / 10f;
         }
     }
 }

@@ -34,6 +34,11 @@ namespace _2d.Engine.Entities
         public bool IsDead;
 
         /// <summary>
+        /// The health.
+        /// </summary>
+        public int Health;
+
+        /// <summary>
         /// Gets a rectangle which bounds this entity in world space.
         /// </summary>
         public Rectangle BoundingRectangle
@@ -48,14 +53,14 @@ namespace _2d.Engine.Entities
             }
         }
 
-        public GameHelper BoundsHelper { get; }
+        public GameHelper GameHelper { get; }
 
         public ContentManager Content { get; }
 
-        public Entity(IServiceProvider service, GameHelper boundsHelper, GraphicsDeviceManager graphics)
+        public Entity(IServiceProvider service, GameHelper gameHelper, GraphicsDeviceManager graphics)
         {
             Content = new ContentManager(service, "content");
-            BoundsHelper = boundsHelper;
+            GameHelper = gameHelper;
             GraphicsDevice = graphics;
         }
 
