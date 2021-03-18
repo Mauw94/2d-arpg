@@ -32,7 +32,6 @@ namespace _2d
         /// </summary>
         protected override void Initialize()
         {
-            
             Random = new Random();
 
             graphics.PreferredBackBufferWidth = ScreenWidth;

@@ -67,7 +67,7 @@ namespace _2d.States
             _game.ChangeState(new GameState(_game, _content));
         }
 
-        private void Button_Settings_Clicked(object sender, EventArgs e)
+        private void Button_Settings_Clicked(object sender, EventArgs e) 
         {
             throw new NotImplementedException();
         }

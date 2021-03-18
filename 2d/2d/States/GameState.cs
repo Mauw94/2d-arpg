@@ -11,7 +11,8 @@ namespace _2d.States
 {
     public class GameState : State
     {
-        public EnemyManager EnemyManager;
+        private EnemyManager _enemyManager;
+        private ScoreManager _scoreManager;
 
         private List<Sprite> _sprites;
         private bool _hasStarted = false;
@@ -32,13 +33,16 @@ namespace _2d.States
         {
             // Initialize managers.
             // todo: score manager
-            EnemyManager = new EnemyManager();
+            _enemyManager = new EnemyManager();
+            _scoreManager = ScoreManager.Load();
 
             _playerTexture = _content.Load<Texture2D>("player");
             _fireballTexture = _content.Load<Texture2D>("fireball");
             _alienTexture = _content.Load<Texture2D>("alien");
 
             _gameFont = _content.Load<SpriteFont>("game");
+
+            Console.WriteLine("## loaded game content ##");
 
             Restart();
         }
@@ -59,11 +63,18 @@ namespace _2d.States
             {
                 if (_sprites[i].IsRemoved)
                 {
+                    if (_sprites[i] is Player player)
+                        if (player.HasDied)
+                        {
+                            _scoreManager.AddScore(player.Score);
+                            ScoreManager.Save(_scoreManager);
+                        }
+
                     if (_sprites[i] is Enemy enemy)
                     {
-                        EnemyManager.RemoveEnemy(enemy);
+                        _enemyManager.RemoveEnemy(enemy);
                         // Spawn new enemy.
-                        _sprites.Add(EnemyManager.SpawnAlien(_alienTexture));
+                        _sprites.Add(_enemyManager.SpawnAlien(_alienTexture));
                     }
 
                     _sprites.RemoveAt(i);
@@ -89,7 +100,7 @@ namespace _2d.States
         /// </summary>
         void Restart()
         {
-            var alien = EnemyManager.SpawnAlien(_alienTexture);
+            var alien = _enemyManager.SpawnAlien(_alienTexture);
             EnemyManager.Enemies.Add(alien);
 
             _sprites = new List<Sprite>()

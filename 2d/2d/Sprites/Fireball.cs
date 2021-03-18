@@ -41,6 +41,8 @@ namespace _2d.Sprites
 
         void CheckForEnemyHit(List<Sprite> sprites)
         {
+            // todo: rework hit
+            // todo: player needs score increased
             foreach (var sprite in sprites)
             {
                 if (sprite == this)

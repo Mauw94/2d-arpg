@@ -17,6 +17,8 @@ namespace _2d.Sprites
 
         public bool HasDied = false;
 
+        public Score Score { get; set; }
+
         public Player(Texture2D texture)
             :base(texture)
         {
