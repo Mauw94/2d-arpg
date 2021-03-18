@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2d.Helpers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -9,6 +10,12 @@ namespace _2d.Sprites
     public class Player : Sprite
     {
         public Fireball Fireball;
+
+        public static Vector2 CurrentPosition;
+
+        public int HealthPoints = 5;
+
+        public bool HasDied = false;
 
         public Player(Texture2D texture)
             :base(texture)
@@ -34,12 +41,29 @@ namespace _2d.Sprites
             if (_currentKey.IsKeyDown(Keys.Space) && _previousKey.IsKeyUp(Keys.Space))
                 AddFireball(sprites);
 
+            CurrentPosition = Position;
+
+            CollisionHelper.CheckScreenBounds(this);
+
+            // todo: this code is bugged.
+            CollisionHelper.CheckCollisionWithEnemy(this, sprites);
+
             base.Update(gameTime, sprites);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        internal void LooseHealth()
         {
-            base.Draw(spriteBatch);
+            // todo: this code is bugged.
+            HealthPoints--;
+            if (HealthPoints <= 0)
+                HasDied = true;
+
+            Console.WriteLine("PLAYER HEALTH: " + HealthPoints);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            base.Draw(gameTime, spriteBatch);
         }
 
         private void AddFireball(List<Sprite> sprites)

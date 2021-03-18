@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using _2d.Sprites;
+﻿using _2d.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace _2d
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private List<Sprite> _sprites;
+        public static Random Random;
+
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
+
+        private State _currentState;
+        private State _nextState;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
             Content.RootDirectory = "Content";
-            IsMouseVisible = false;
         }
 
         /// <summary>
@@ -30,6 +32,15 @@ namespace _2d
         /// </summary>
         protected override void Initialize()
         {
+            
+            Random = new Random();
+
+            graphics.PreferredBackBufferWidth = ScreenWidth;
+            graphics.PreferredBackBufferHeight = ScreenHeight;
+            graphics.ApplyChanges();
+
+            IsMouseVisible = true;
+
             base.Initialize();
         }
 
@@ -42,16 +53,10 @@ namespace _2d
             // Create a new SpriteBatch, which can be used to draw textures;
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            var playerTexture = Content.Load<Texture2D>("player");
+            _currentState = new MenuState(this, Content);
+            _currentState.LoadContent();
+            _nextState = null;
 
-            _sprites = new List<Sprite>()
-            {
-                new Player(playerTexture)
-                {
-                    Position = new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2),
-                    Fireball = new Fireball(Content.Load<Texture2D>("fireball")),
-                },
-            };
         }
 
         /// <summary>
@@ -70,16 +75,24 @@ namespace _2d
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed 
-                || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (_nextState != null)
+            {
+                _currentState = _nextState;
+                _currentState.LoadContent();
 
-            foreach (var sprite in _sprites.ToArray())
-                sprite.Update(gameTime, _sprites);
+                _nextState = null;
+            }
 
-            PostUpdate();
+            _currentState.Update(gameTime);
+
+            _currentState.PostUpdate(gameTime);
 
             base.Update(gameTime);
+        }
+
+        public void ChangeState(State state)
+        {
+            _nextState = state;
         }
 
         /// <summary>
@@ -91,30 +104,9 @@ namespace _2d
             // Bg color.
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // Draw game entities.
-            spriteBatch.Begin();
-
-            foreach (var sprite in _sprites)
-                sprite.Draw(spriteBatch);
-
-            spriteBatch.End();
+            _currentState.Draw(gameTime, spriteBatch);
 
             base.Draw(gameTime);
-        }
-
-        /// <summary>
-        /// Remove sprites that are allowed to be removed.
-        /// </summary>
-        private void PostUpdate()
-        {
-            for (int i = 0; i < _sprites.Count; i++)
-            {
-                if (_sprites[i].IsRemoved)
-                {
-                    _sprites.RemoveAt(i);
-                    i--;
-                }
-            }
         }
 
     }
