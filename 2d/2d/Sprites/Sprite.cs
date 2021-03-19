@@ -17,7 +17,7 @@ namespace _2d.Sprites
         public Vector2 Origin;
         public Vector2 Direction;
 
-        public float RotationVelocity = 4f;
+        public float RotationVelocity = 3.5f;
         public float LinearVelocity = 5f;
         public float Layer;
 

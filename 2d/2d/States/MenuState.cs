@@ -41,7 +41,7 @@ namespace _2d.States
                 new Button(buttonTexture, buttonFont)
                 {
                     Text = "Highscores",
-                    Position = new Vector2(Game1.ScreenWidth/ 2, 440),
+                    Position = new Vector2(Game1.ScreenWidth / 2, 440),
                     Click = new EventHandler(Button_Highscores_Clicked),
                     Layer = 0.1f
                 },

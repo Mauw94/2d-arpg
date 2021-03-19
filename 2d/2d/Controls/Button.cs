@@ -53,6 +53,7 @@ namespace _2d.Controls
         {
             _texture = texture;
             _font = font;
+
             PenColor = Color.Black;
         }
 

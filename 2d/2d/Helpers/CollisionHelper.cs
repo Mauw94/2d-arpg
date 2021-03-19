@@ -27,7 +27,10 @@ namespace _2d.Helpers
                 // todo: this code is bugged.
                 if (sprite is Enemy)
                     if (sprite.Rectangle.Intersects(player.Rectangle))
+                    {
+                        sprite.IsRemoved = true;
                         player.LooseHealth();
+                    }
             }
         }
     }

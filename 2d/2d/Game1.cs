@@ -8,7 +8,7 @@ namespace _2d
     public class Game1 : Game
     {
         public GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         public static Random Random;
 

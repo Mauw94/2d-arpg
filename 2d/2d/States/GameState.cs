@@ -23,6 +23,8 @@ namespace _2d.States
 
         private SpriteFont _gameFont;
 
+        private Player _player;
+
         public GameState(Game1 game, ContentManager content) 
             : base(game, content)
         {
@@ -59,6 +61,9 @@ namespace _2d.States
 
         public override void PostUpdate(GameTime gameTime)
         {
+            if (_player.HasDied)
+                _game.ChangeState(new GameOverState(_game, _content));
+
             for (int i = 0; i < _sprites.Count; i++)
             {
                 if (_sprites[i].IsRemoved)
@@ -91,6 +96,9 @@ namespace _2d.States
             foreach (var sprite in _sprites)
                 sprite.Draw(gameTime, spriteBatch);
 
+            spriteBatch.DrawString(_gameFont, _player.HealthPoints.ToString() + "/" + Player.MaxHealth.ToString(), 
+                new Vector2(Game1.ScreenWidth / 2, 15), Color.Red);
+
             spriteBatch.End();
         }
 
@@ -101,16 +109,18 @@ namespace _2d.States
         void Restart()
         {
             var alien = _enemyManager.SpawnAlien(_alienTexture);
+            _player = new Player(_playerTexture)
+            {
+                Position = new Vector2(_game.graphics.PreferredBackBufferWidth / 2,
+                        _game.graphics.PreferredBackBufferHeight / 2),
+                Fireball = new Fireball(_fireballTexture),
+            };
+
             EnemyManager.Enemies.Add(alien);
 
             _sprites = new List<Sprite>()
             {
-                new Player(_playerTexture)
-                {
-                    Position = new Vector2(_game.graphics.PreferredBackBufferWidth / 2, 
-                        _game.graphics.PreferredBackBufferHeight / 2),
-                    Fireball = new Fireball(_fireballTexture),
-                },
+                _player,
                 alien
             };
 

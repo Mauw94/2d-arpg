@@ -13,7 +13,9 @@ namespace _2d.Sprites
 
         public static Vector2 CurrentPosition;
 
-        public int HealthPoints = 5;
+        public const int MaxHealth = 5;
+
+        public int HealthPoints = MaxHealth;
 
         public bool HasDied = false;
 
@@ -22,7 +24,7 @@ namespace _2d.Sprites
         public Player(Texture2D texture)
             :base(texture)
         {
-
+            
         }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
@@ -47,7 +49,6 @@ namespace _2d.Sprites
 
             CollisionHelper.CheckScreenBounds(this);
 
-            // todo: this code is bugged.
             CollisionHelper.CheckCollisionWithEnemy(this, sprites);
 
             base.Update(gameTime, sprites);
@@ -55,12 +56,9 @@ namespace _2d.Sprites
 
         internal void LooseHealth()
         {
-            // todo: this code is bugged.
             HealthPoints--;
             if (HealthPoints <= 0)
                 HasDied = true;
-
-            Console.WriteLine("PLAYER HEALTH: " + HealthPoints);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
