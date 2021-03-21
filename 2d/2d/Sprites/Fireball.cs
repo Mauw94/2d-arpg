@@ -41,16 +41,18 @@ namespace _2d.Sprites
 
         void CheckForEnemyHit(List<Sprite> sprites)
         {
-            // todo: rework hit
-            // todo: player needs score increased
             foreach (var sprite in sprites)
             {
                 if (sprite == this)
                     continue;
-                if (sprite is GreenAlien)
+                if (sprite is Enemy enemy)
                 {
                     if (this.Rectangle.Intersects(sprite.Rectangle))
-                        sprite.IsRemoved = true;
+                    {
+                        Player.Score.Value++;
+                        enemy.IsRemoved = true;
+                        enemy.IsDead = true;
+                    }
                 }
             }
         }

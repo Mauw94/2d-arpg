@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace _2d.States
 {
@@ -74,7 +73,7 @@ namespace _2d.States
 
         private void Button_Highscores_Clicked(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _game.ChangeState(new HighscoreState(_game, _content));
         }
 
         private void Button_Quit_Clicked(object sender, EventArgs e)

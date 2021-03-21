@@ -19,7 +19,7 @@ namespace _2d.Sprites
 
         public bool HasDied = false;
 
-        public Score Score { get; set; }
+        public static Score Score = new Score();
 
         public Player(Texture2D texture)
             :base(texture)
@@ -58,7 +58,10 @@ namespace _2d.Sprites
         {
             HealthPoints--;
             if (HealthPoints <= 0)
+            {
+                IsRemoved = true;
                 HasDied = true;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

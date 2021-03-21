@@ -18,8 +18,9 @@ namespace _2d.States
         private bool _hasStarted = false;
 
         private Texture2D _playerTexture;
-        private Texture2D _alienTexture;
         private Texture2D _fireballTexture;
+
+        private List<Texture2D> _alienTextures;
 
         private SpriteFont _gameFont;
 
@@ -34,17 +35,21 @@ namespace _2d.States
         public override void LoadContent()
         {
             // Initialize managers.
-            // todo: score manager
             _enemyManager = new EnemyManager();
             _scoreManager = ScoreManager.Load();
 
             _playerTexture = _content.Load<Texture2D>("player");
             _fireballTexture = _content.Load<Texture2D>("fireball");
-            _alienTexture = _content.Load<Texture2D>("alien");
+
+            _alienTextures = new List<Texture2D>
+            {
+                _content.Load<Texture2D>("alien"),
+                _content.Load<Texture2D>("redalien")
+            };
 
             _gameFont = _content.Load<SpriteFont>("game");
 
-            Console.WriteLine("## loaded game content ##");
+            Player.Score.PlayerName = "Johny";
 
             Restart();
         }
@@ -71,15 +76,18 @@ namespace _2d.States
                     if (_sprites[i] is Player player)
                         if (player.HasDied)
                         {
-                            _scoreManager.AddScore(player.Score);
+                            _scoreManager.AddScore(Player.Score);
                             ScoreManager.Save(_scoreManager);
                         }
 
                     if (_sprites[i] is Enemy enemy)
                     {
-                        _enemyManager.RemoveEnemy(enemy);
-                        // Spawn new enemy.
-                        _sprites.Add(_enemyManager.SpawnAlien(_alienTexture));
+                        if (enemy.IsDead)
+                        {
+                            _enemyManager.RemoveEnemy(enemy);
+                            // Spawn new enemy.
+                            _sprites.Add(_enemyManager.SpawnAlien(_alienTextures));
+                        }
                     }
 
                     _sprites.RemoveAt(i);
@@ -108,7 +116,9 @@ namespace _2d.States
         /// </summary>
         void Restart()
         {
-            var alien = _enemyManager.SpawnAlien(_alienTexture);
+            var alien = _enemyManager.SpawnAlien(_alienTextures);
+            var alien2 = _enemyManager.SpawnAlien(_alienTextures);
+
             _player = new Player(_playerTexture)
             {
                 Position = new Vector2(_game.graphics.PreferredBackBufferWidth / 2,
@@ -121,7 +131,8 @@ namespace _2d.States
             _sprites = new List<Sprite>()
             {
                 _player,
-                alien
+                alien,
+                alien2
             };
 
             _hasStarted = true;

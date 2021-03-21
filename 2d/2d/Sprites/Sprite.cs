@@ -38,8 +38,6 @@ namespace _2d.Sprites
         {
             _texture = texture;
 
-            Console.WriteLine("### INITIALIZE SPRITE: " + this);
-
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
         }
 

@@ -24,11 +24,11 @@ namespace _2d.Helpers
                 if (sprite is Player)
                     continue;
 
-                // todo: this code is bugged.
-                if (sprite is Enemy)
-                    if (sprite.Rectangle.Intersects(player.Rectangle))
+                if (sprite is Enemy enemy)
+                    if (enemy.Rectangle.Intersects(player.Rectangle))
                     {
-                        sprite.IsRemoved = true;
+                        enemy.IsRemoved = true;
+                        enemy.IsDead = true;
                         player.LooseHealth();
                     }
             }

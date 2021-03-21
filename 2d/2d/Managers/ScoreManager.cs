@@ -1,9 +1,7 @@
 ﻿using _2d.Sprites;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace _2d.Managers
@@ -12,7 +10,7 @@ namespace _2d.Managers
     {
         private static string _fileName = "scores.xml";
 
-        private List<Score> HighScores { get; set; }
+        public List<Score> HighScores { get; set; }
 
         private List<Score> Scores { get; set; }
 
@@ -61,7 +59,7 @@ namespace _2d.Managers
 
         void UpdateHighScores()
         {
-            HighScores = Scores.Take(10).ToList();
+            HighScores = Scores.Take(5).ToList();
         }
     }
 }

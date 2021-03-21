@@ -1,5 +1,6 @@
 ﻿using _2d.Sprites;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace _2d.Managers
@@ -13,9 +14,9 @@ namespace _2d.Managers
             Enemies = new List<Enemy>();
         }
         
-        public GreenAlien SpawnAlien(Texture2D texture)
+        public Alien SpawnAlien(List<Texture2D> textures)
         {
-            var alien = new GreenAlien(texture);
+            var alien = new Alien(GetRandomTexture(textures));
             Enemies.Add(alien);
 
             return alien;
@@ -24,6 +25,12 @@ namespace _2d.Managers
         public void RemoveEnemy(Enemy enemy)
         {
             Enemies.Remove(enemy);
+        }
+
+        Texture2D GetRandomTexture(List<Texture2D> textures)
+        {
+            var rnd = Game1.Random.Next(1, textures.Count + 1);
+            return textures[rnd -1];
         }
     }
 }
