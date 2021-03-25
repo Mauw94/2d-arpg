@@ -56,7 +56,7 @@ namespace _2d.Sprites
             return this.MemberwiseClone();
         }
 
-        #region Colloision
+        #region Collision
         protected bool IsTouchingLeft(Sprite sprite)
         {
             return this.Rectangle.Right + this.Position.X > sprite.Rectangle.Left &&

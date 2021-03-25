@@ -64,8 +64,16 @@ namespace _2d.Sprites
             }
         }
 
+        internal void GainHealth()
+        {
+            HealthPoints++;
+            if (HealthPoints >= MaxHealth)
+                HealthPoints = MaxHealth;
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+           
             base.Draw(gameTime, spriteBatch);
         }
 
