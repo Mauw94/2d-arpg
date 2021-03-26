@@ -1,6 +1,5 @@
 ﻿using _2d.Sprites;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace _2d.Managers
@@ -29,8 +28,8 @@ namespace _2d.Managers
 
         Texture2D GetRandomTexture(List<Texture2D> textures)
         {
-            var rnd = Game1.Random.Next(1, textures.Count + 1);
-            return textures[rnd -1];
+            var rnd = Game1.Random.Next(0, textures.Count);
+            return textures[rnd];
         }
     }
 }
