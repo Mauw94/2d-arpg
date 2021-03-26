@@ -1,4 +1,5 @@
-﻿using _2d.States;
+﻿using _2d.Managers;
+using _2d.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -18,10 +19,15 @@ namespace _2d
         private State _currentState;
         private State _nextState;
 
+        // test
+        private ItemManager _itemManager;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            _itemManager = new ItemManager();
         }
 
         /// <summary>
@@ -39,6 +45,9 @@ namespace _2d
             graphics.ApplyChanges();
 
             IsMouseVisible = true;
+
+            for (int i = 0; i < 10; i++)
+                _itemManager.GetRandomItem();
 
             base.Initialize();
         }

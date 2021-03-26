@@ -104,8 +104,10 @@ namespace _2d.States
             foreach (var sprite in _sprites)
                 sprite.Draw(gameTime, spriteBatch);
 
-            spriteBatch.DrawString(_gameFont, _player.HealthPoints.ToString() + "/" + Player.MaxHealth.ToString(), 
-                new Vector2(Game1.ScreenWidth / 2, 15), Color.Red);
+            spriteBatch.DrawString(_gameFont, "Score: " + Player.Score.Value, new Vector2(10, 15), Color.White);
+
+            spriteBatch.DrawString(_gameFont, "Health: " + _player.HealthPoints.ToString(), 
+                new Vector2(Game1.ScreenWidth / 2, 15), Color.White);
 
             spriteBatch.End();
         }
