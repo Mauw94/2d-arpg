@@ -1,46 +1,53 @@
 ﻿using _2d.Models.Items;
-using System;
+using _2d.Sprites;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace _2d.Managers
 {
     public class ItemManager
     {
-        private const int _maxValue = 100;
-        private readonly Dictionary<ItemType, int> _items;
+        public static List<Item> Items;
 
-        public ItemManager()
+        private Texture2D _texture;
+        private ContentManager _content;
+
+        public ItemManager(ContentManager content)
         {
-            _items = new Dictionary<ItemType, int>
-            {
-                { ItemType.Health, 10 },
-                { ItemType.Armour, 40 },
-                { ItemType.SpeedPotion, 15 },
-                { ItemType.DamagePotion, 35 },
-            };
+            Items = new List<Item>();
+            _content = content;
         }
 
-        public ItemType GetRandomItem()
+        public Item GenerateItem(ItemType type, Vector2 spawnPosition)
         {
-            ItemType result = ItemType.Armour;
+            var item = CreateItem(type, spawnPosition);
+            Items.Add(item);
 
-            var weight = Game1.Random.Next(_maxValue);
+            return item;
+        }
 
-            foreach (var item in _items)
+        Item CreateItem(ItemType type, Vector2 spawnPosition)
+        {
+            // todo: change to correct classes
+            switch (type)
             {
-                var v = item.Value;
-
-                if (weight > v)
-                {
-                    weight -= v;
-                } else
-                {
-                    result = item.Key;
-                    break;
-                }
+                case ItemType.Armour:
+                    _texture = _content.Load<Texture2D>("armour");
+                    return new HealthPotion(_texture, spawnPosition);
+                case ItemType.Health:
+                    _texture = _content.Load<Texture2D>("hp_potion");
+                    return new HealthPotion(_texture, spawnPosition);
+                case ItemType.DamagePotion:
+                    _texture = _content.Load<Texture2D>("damage_potion");
+                    return new DamagePotion(_texture, spawnPosition);
+                case ItemType.SpeedPotion:
+                    _texture = _content.Load<Texture2D>("speed_potion");
+                    return new SpeedPotion(_texture, spawnPosition);
+                default:
+                    return null;
             }
-            Console.WriteLine("Result is: " + result.ToString());
-            return result;
         }
     }
 }

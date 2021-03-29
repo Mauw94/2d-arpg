@@ -13,12 +13,15 @@ namespace _2d.Sprites
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
 
+        protected MouseState _currentMouseState;
+        protected MouseState _previouseMouseState;
+
         public Vector2 Position;
         public Vector2 Origin;
         public Vector2 Direction;
 
-        public float RotationVelocity = 3.5f;
-        public float LinearVelocity = 5f;
+        public float RotationVelocity = 2.8f;
+        public float LinearVelocity = 4.5f;
         public float Layer;
 
         public Sprite Parent;

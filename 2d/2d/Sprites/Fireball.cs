@@ -52,6 +52,8 @@ namespace _2d.Sprites
                         Player.Score.Value++;
                         enemy.IsRemoved = true;
                         enemy.IsDead = true;
+                        enemy.DetermineItemDropChance();
+                        this.IsRemoved = true;
                     }
                 }
             }

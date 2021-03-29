@@ -13,6 +13,7 @@ namespace _2d.States
     {
         private EnemyManager _enemyManager;
         private ScoreManager _scoreManager;
+        private ItemManager _itemManager;
 
         private List<Sprite> _sprites;
         private bool _hasStarted = false;
@@ -36,6 +37,7 @@ namespace _2d.States
         {
             // Initialize managers.
             _enemyManager = new EnemyManager();
+            _itemManager = new ItemManager(_content);
             _scoreManager = ScoreManager.Load();
 
             _playerTexture = _content.Load<Texture2D>("player");
@@ -67,25 +69,24 @@ namespace _2d.States
         public override void PostUpdate(GameTime gameTime)
         {
             if (_player.HasDied)
+            {
+                _scoreManager.AddScore(Player.Score);
+                ScoreManager.Save(_scoreManager);
                 _game.ChangeState(new GameOverState(_game, _content));
+            }
 
             for (int i = 0; i < _sprites.Count; i++)
             {
                 if (_sprites[i].IsRemoved)
                 {
-                    if (_sprites[i] is Player player)
-                        if (player.HasDied)
-                        {
-                            _scoreManager.AddScore(Player.Score);
-                            ScoreManager.Save(_scoreManager);
-                        }
-
                     if (_sprites[i] is Enemy enemy)
                     {
                         if (enemy.IsDead)
                         {
+                            if (enemy.DropsItem)
+                                _sprites.Add(_itemManager.GenerateItem(ItemGenerator.GetItemToDrop(), enemy.Position));
+
                             _enemyManager.RemoveEnemy(enemy);
-                            // Spawn new enemy.
                             _sprites.Add(_enemyManager.SpawnAlien(_alienTextures));
                         }
                     }

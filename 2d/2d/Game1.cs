@@ -19,15 +19,10 @@ namespace _2d
         private State _currentState;
         private State _nextState;
 
-        // test
-        private ItemManager _itemManager;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
-            _itemManager = new ItemManager();
         }
 
         /// <summary>
@@ -46,9 +41,6 @@ namespace _2d
 
             IsMouseVisible = true;
 
-            for (int i = 0; i < 10; i++)
-                _itemManager.GetRandomItem();
-
             base.Initialize();
         }
 
@@ -64,7 +56,6 @@ namespace _2d
             _currentState = new MenuState(this, Content);
             _currentState.LoadContent();
             _nextState = null;
-
         }
 
         /// <summary>

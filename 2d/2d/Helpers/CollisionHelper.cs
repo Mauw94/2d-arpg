@@ -1,4 +1,5 @@
 ﻿using _2d.Sprites;
+using System;
 using System.Collections.Generic;
 
 namespace _2d.Helpers
@@ -17,7 +18,7 @@ namespace _2d.Helpers
                 sprite.Position.Y = 0;
         }
 
-        public static void CheckCollisionWithEnemy(Player player, List<Sprite> sprites)
+        public static void CheckCollisionWithEntities(Player player, List<Sprite> sprites)
         {
             foreach (var sprite in sprites)
             {
@@ -31,6 +32,15 @@ namespace _2d.Helpers
                         enemy.IsDead = true;
                         player.LooseHealth();
                     }
+
+                if (sprite is Item item)
+                {
+                    if (player.Rectangle.Intersects(item.Rectangle))
+                    {
+                        item.IsRemoved = true;
+                        item.ExecuteEffectOnPlayer(player);
+                    }
+                }
             }
         }
     }
