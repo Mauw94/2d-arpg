@@ -92,7 +92,7 @@ namespace _2d.States
 
                             for (int j = 0; j < spawnRate; j++)
                             {
-                                if (EnemyManager.Enemies.Count > (Player.Score.Value / 3)  + 1)
+                                if (EnemyManager.Enemies.Count > (Player.Score.Value / 4)  + 1)
                                     continue;
 
                                 _sprites.Add(_enemyManager.SpawnAlien(_alienTextures));

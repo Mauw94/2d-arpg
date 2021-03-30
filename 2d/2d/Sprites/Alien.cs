@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace _2d.Sprites
@@ -10,6 +9,8 @@ namespace _2d.Sprites
         public Alien(Texture2D texture)
             : base(texture)
         {
+            // todo: spawn x and y in the opposite squares of where the player is atm.
+            // todo: enemy cannot spawn near or on top of the player.
             int xPos = Game1.Random.Next(0, Game1.ScreenWidth - texture.Width);
             int yPos = Game1.Random.Next(0, Game1.ScreenHeight - texture.Height);
             int speed = Game1.Random.Next(3, 8);
@@ -20,9 +21,6 @@ namespace _2d.Sprites
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
-            // todo: make the aliens spin around
-            // _rotation = MathHelper.ToRadians(RotationVelocity);
-            
             Vector2 direction = Player.CurrentPosition - Position;
             direction.Normalize();
             Position += direction * LinearVelocity;

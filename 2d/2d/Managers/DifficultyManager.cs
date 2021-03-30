@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace _2d.Managers
+﻿namespace _2d.Managers
 {
     public class DifficultyManager
     {
