@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using _2d.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -50,10 +51,10 @@ namespace _2d.Sprites
                     if (this.Rectangle.Intersects(sprite.Rectangle))
                     {
                         Player.Score.Value++;
+                        
                         enemy.IsRemoved = true;
                         enemy.IsDead = true;
                         enemy.DetermineItemDropChance();
-                        this.IsRemoved = true;
                     }
                 }
             }

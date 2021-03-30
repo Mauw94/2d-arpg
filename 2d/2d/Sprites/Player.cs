@@ -13,10 +13,9 @@ namespace _2d.Sprites
 
         public static Vector2 CurrentPosition;
 
-        public const int MaxHealth = 5;
+        public const int MaxHealth = 10;
 
-        // todo: should be equal to MaxHealth in final version
-        public int HealthPoints = 2;
+        public int HealthPoints = MaxHealth;
 
         public bool HasDied = false;
 

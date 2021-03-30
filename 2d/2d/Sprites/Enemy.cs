@@ -37,7 +37,6 @@ namespace _2d.Sprites
 
         public void DetermineItemDropChance()
         {
-            // todo: increase drop chance by increased difficulty
             var weight = Game1.Random.Next(100);
 
             foreach (var drop in _itemDropChance)
@@ -61,8 +60,6 @@ namespace _2d.Sprites
                     }
                 }
             }
-
-            Console.WriteLine("Can drop item? " + DropsItem.ToString());
         }
     }
 }

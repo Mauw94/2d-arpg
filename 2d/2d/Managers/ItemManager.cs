@@ -12,7 +12,7 @@ namespace _2d.Managers
         public static List<Item> Items;
 
         private Texture2D _texture;
-        private ContentManager _content;
+        private readonly ContentManager _content;
 
         public ItemManager(ContentManager content)
         {
@@ -30,21 +30,24 @@ namespace _2d.Managers
 
         Item CreateItem(ItemType type, Vector2 spawnPosition)
         {
-            // todo: change to correct classes
             switch (type)
             {
                 case ItemType.Armour:
                     _texture = _content.Load<Texture2D>("armour");
                     return new HealthPotion(_texture, spawnPosition);
+
                 case ItemType.Health:
                     _texture = _content.Load<Texture2D>("hp_potion");
                     return new HealthPotion(_texture, spawnPosition);
+
                 case ItemType.DamagePotion:
                     _texture = _content.Load<Texture2D>("damage_potion");
                     return new DamagePotion(_texture, spawnPosition);
+
                 case ItemType.SpeedPotion:
                     _texture = _content.Load<Texture2D>("speed_potion");
                     return new SpeedPotion(_texture, spawnPosition);
+
                 default:
                     return null;
             }

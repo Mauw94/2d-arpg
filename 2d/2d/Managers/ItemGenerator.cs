@@ -40,7 +40,6 @@ namespace _2d.Managers
                     break;
                 }
             }
-            Console.WriteLine("Dropped item: " + result.ToString());
             return result;
         }
     }

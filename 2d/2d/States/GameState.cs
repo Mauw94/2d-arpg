@@ -87,7 +87,16 @@ namespace _2d.States
                                 _sprites.Add(_itemManager.GenerateItem(ItemGenerator.GetItemToDrop(), enemy.Position));
 
                             _enemyManager.RemoveEnemy(enemy);
-                            _sprites.Add(_enemyManager.SpawnAlien(_alienTextures));
+
+                            int spawnRate = Game1.Random.Next(1, DifficultyManager.GetSpawnRate(Player.Score.Value));
+
+                            for (int j = 0; j < spawnRate; j++)
+                            {
+                                if (EnemyManager.Enemies.Count > (Player.Score.Value / 3)  + 1)
+                                    continue;
+
+                                _sprites.Add(_enemyManager.SpawnAlien(_alienTextures));
+                            }
                         }
                     }
 
